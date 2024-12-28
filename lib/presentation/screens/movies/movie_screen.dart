@@ -53,13 +53,22 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-class _CustomSliverAppbar extends StatelessWidget {
+class _CustomSliverAppbar extends ConsumerWidget {
   final Movie movie;
   const _CustomSliverAppbar({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SliverAppBar(
+      actions: [
+        IconButton(
+          onPressed: () {
+            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          },
+          icon: const Icon(Icons.favorite_outline),
+          // icon: const Icon(Icons.favorite_rounded, color: Colors.red),
+        ),
+      ],
       backgroundColor: Colors.black,
       expandedHeight: MediaQuery.of(context).size.height * 0.7,
       foregroundColor: Colors.white,
@@ -77,35 +86,33 @@ class _CustomSliverAppbar extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.8, 1],
-                    colors: [
-                      Colors.transparent,
-                      Colors.black87,
-                    ],
-                  ),
-                ),
-              ),
+            const _CustomGradient(
+              colors: [
+                Colors.black87,
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.2],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
             ),
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    stops: [0.1, 0.4],
-                    colors: [
-                      Colors.black87,
-                      Colors.transparent,
-                    ],
-                  ),
-                ),
-              ),
-            )
+            const _CustomGradient(
+              colors: [
+                Colors.transparent,
+                Colors.black54,
+              ],
+              stops: [0.8, 1],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            const _CustomGradient(
+              colors: [
+                Colors.black54,
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.2],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ],
         ),
       ),
@@ -245,6 +252,36 @@ class _ActorsByMovie extends ConsumerWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final List<Color> colors;
+  final List<double> stops;
+  final Alignment begin;
+  final Alignment end;
+
+  const _CustomGradient({
+    required this.colors,
+    required this.stops,
+    required this.begin,
+    required this.end,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+            stops: stops,
+            colors: colors,
+          ),
+        ),
       ),
     );
   }
