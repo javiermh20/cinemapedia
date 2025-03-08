@@ -16,6 +16,7 @@ class IsarDatasource extends LocalStorageDatasource {
       return await Isar.open(
         [MovieSchema],
         directory: directory.path,
+        inspector: true,
       );
     }
     return Future.value(Isar.getInstance());

@@ -20,9 +20,9 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     required this.searchMovies,
     required this.initialMovies,
   }) : super(
-      searchFieldLabel: 'Buscar películas',
-      // textInputAction: TextInputAction.done
-    );
+          searchFieldLabel: 'Buscar películas',
+          // textInputAction: TextInputAction.done
+        );
 
   void clearStreams() {
     debouncedMovies.close();
@@ -82,7 +82,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
               spins: 10,
               infinite: true,
               child: IconButton(
-                  onPressed: () => query = '',
+                onPressed: () => query = '',
                 icon: const Icon(Icons.refresh_rounded),
               ),
             );
@@ -174,7 +174,8 @@ class _MovieItem extends StatelessWidget {
                       const SizedBox(width: 5),
                       Text(
                         HumanFormats.number(movie.voteAverage, 1),
-                        style: textStyles.bodyMedium!.copyWith(color: Colors.yellow.shade900),
+                        style: textStyles.bodyMedium!
+                            .copyWith(color: Colors.yellow.shade900),
                       ),
                     ],
                   )
